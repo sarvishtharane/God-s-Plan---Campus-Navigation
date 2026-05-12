@@ -1,0 +1,2539 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Parul University — Campus Navigator</title>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Syne:wght@400;700;800&display=swap"
+        rel="stylesheet">
+    <style>
+        :root {
+            --pri: #1a3a2a;
+            --pri2: #2d5c40;
+            --acc: #e8a020;
+            --acc2: #f5c842;
+            --red: #c0392b;
+            --red2: #e74c3c;
+            --orange: #e67e22;
+            --bg: #f4f0e8;
+            --bg2: #fffdf7;
+            --card: #ffffff;
+            --text: #1a1a1a;
+            --muted: #5a5a5a;
+            --border: #d0cfc4;
+            --safe: #27ae60;
+            --safe2: #2ecc71;
+            --blocked: #c0392b;
+            --warn: #f39c12;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Space Grotesk', sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            min-height: 100vh;
+        }
+
+        /* ---- NAV ---- */
+        nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            background: var(--pri);
+            color: #fff;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 2rem;
+            height: 62px;
+            box-shadow: 0 2px 16px rgba(0, 0, 0, 0.18);
+        }
+
+        .nav-brand {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .nav-brand .logo {
+            width: 36px;
+            height: 36px;
+            background: var(--acc);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: 'Syne', sans-serif;
+            font-weight: 800;
+            font-size: 18px;
+            color: var(--pri);
+        }
+
+        .nav-brand span {
+            font-family: 'Syne', sans-serif;
+            font-weight: 700;
+            font-size: 1.1rem;
+            letter-spacing: 0.02em;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 4px;
+        }
+
+        .nav-links button {
+            background: transparent;
+            border: none;
+            color: rgba(255, 255, 255, 0.75);
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 0.85rem;
+            font-weight: 500;
+            padding: 8px 14px;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .nav-links button:hover,
+        .nav-links button.active {
+            background: rgba(255, 255, 255, 0.12);
+            color: #fff;
+        }
+
+        .nav-links button.active {
+            color: var(--acc2);
+        }
+
+        /* ---- PAGES ---- */
+        .page {
+            display: none;
+            padding-top: 62px;
+            min-height: 100vh;
+        }
+
+        .page.active {
+            display: block;
+        }
+
+        /* ---- HOME ---- */
+        .home-hero {
+            background: linear-gradient(135deg, var(--pri) 0%, var(--pri2) 60%, #3d7a54 100%);
+            color: #fff;
+            padding: 5rem 2rem 4rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .home-hero::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.04'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+        }
+
+        .hero-inner {
+            max-width: 900px;
+            margin: 0 auto;
+            position: relative;
+        }
+
+        .hero-tag {
+            display: inline-block;
+            background: var(--acc);
+            color: var(--pri);
+            font-size: 0.75rem;
+            font-weight: 700;
+            padding: 4px 12px;
+            border-radius: 20px;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            margin-bottom: 1.2rem;
+        }
+
+        .hero-inner h1 {
+            font-family: 'Syne', sans-serif;
+            font-size: clamp(2rem, 4vw, 3.4rem);
+            font-weight: 800;
+            line-height: 1.1;
+            margin-bottom: 1rem;
+        }
+
+        .hero-inner p {
+            font-size: 1.05rem;
+            color: rgba(255, 255, 255, 0.8);
+            max-width: 520px;
+            line-height: 1.7;
+            margin-bottom: 2rem;
+        }
+
+        .hero-btns {
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+
+        .btn-pri {
+            background: var(--acc);
+            color: var(--pri);
+            border: none;
+            font-family: 'Space Grotesk', sans-serif;
+            font-weight: 700;
+            padding: 13px 26px;
+            border-radius: 10px;
+            cursor: pointer;
+            font-size: 0.95rem;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .btn-pri:hover {
+            background: var(--acc2);
+            transform: translateY(-1px);
+        }
+
+        .btn-sec {
+            background: rgba(255, 255, 255, 0.12);
+            color: #fff;
+            border: 1.5px solid rgba(255, 255, 255, 0.3);
+            font-family: 'Space Grotesk', sans-serif;
+            font-weight: 600;
+            padding: 13px 26px;
+            border-radius: 10px;
+            cursor: pointer;
+            font-size: 0.95rem;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .btn-sec:hover {
+            background: rgba(255, 255, 255, 0.2);
+        }
+
+        .home-cards {
+            max-width: 960px;
+            margin: 0 auto;
+            padding: 3rem 2rem;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 20px;
+        }
+
+        .feature-card {
+            background: var(--card);
+            border-radius: 14px;
+            padding: 1.6rem;
+            border: 1px solid var(--border);
+            cursor: pointer;
+            transition: all 0.25s;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .feature-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: var(--pri2);
+            border-radius: 14px 14px 0 0;
+        }
+
+        .feature-card.red::before {
+            background: var(--red2);
+        }
+
+        .feature-card.amber::before {
+            background: var(--acc);
+        }
+
+        .feature-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        .feature-card .card-icon {
+            font-size: 2rem;
+            margin-bottom: 0.8rem;
+        }
+
+        .feature-card h3 {
+            font-family: 'Syne', sans-serif;
+            font-size: 1.1rem;
+            font-weight: 700;
+            margin-bottom: 0.4rem;
+        }
+
+        .feature-card p {
+            font-size: 0.87rem;
+            color: var(--muted);
+            line-height: 1.6;
+        }
+
+        .feature-card .card-arrow {
+            position: absolute;
+            bottom: 1.2rem;
+            right: 1.2rem;
+            background: var(--bg);
+            border-radius: 50%;
+            width: 32px;
+            height: 32px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1rem;
+        }
+
+        /* ---- ABOUT ---- */
+        .about-hero {
+            background: var(--pri);
+            color: #fff;
+            padding: 4rem 2rem;
+        }
+
+        .about-hero h1 {
+            font-family: 'Syne', sans-serif;
+            font-size: 2.4rem;
+            font-weight: 800;
+            margin-bottom: 0.5rem;
+        }
+
+        .about-hero p {
+            color: rgba(255, 255, 255, 0.75);
+            font-size: 1rem;
+        }
+
+        .about-body {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 3rem 2rem;
+        }
+
+        .about-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 16px;
+            margin: 2rem 0;
+        }
+
+        .about-stat {
+            background: var(--card);
+            border-radius: 12px;
+            padding: 1.4rem;
+            border: 1px solid var(--border);
+            text-align: center;
+        }
+
+        .about-stat .num {
+            font-family: 'Syne', sans-serif;
+            font-size: 2.2rem;
+            font-weight: 800;
+            color: var(--pri2);
+        }
+
+        .about-stat p {
+            font-size: 0.85rem;
+            color: var(--muted);
+            margin-top: 4px;
+        }
+
+        .about-section {
+            background: var(--card);
+            border-radius: 14px;
+            padding: 2rem;
+            border: 1px solid var(--border);
+            margin-bottom: 1.5rem;
+        }
+
+        .about-section h2 {
+            font-family: 'Syne', sans-serif;
+            font-size: 1.3rem;
+            color: var(--pri);
+            margin-bottom: 0.8rem;
+        }
+
+        .about-section p {
+            color: var(--muted);
+            line-height: 1.8;
+            font-size: 0.94rem;
+        }
+
+        .about-section ul {
+            list-style: none;
+        }
+
+        .about-section ul li {
+            padding: 6px 0;
+            border-bottom: 1px solid var(--border);
+            font-size: 0.92rem;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .about-section ul li:last-child {
+            border: none;
+        }
+
+        .about-section ul li::before {
+            content: '●';
+            color: var(--pri2);
+            font-size: 0.5rem;
+        }
+
+        /* ---- MAP PAGE ---- */
+        .map-layout {
+            display: flex;
+            height: calc(100vh - 62px);
+        }
+
+        .map-sidebar {
+            width: 290px;
+            flex-shrink: 0;
+            background: var(--card);
+            border-right: 1px solid var(--border);
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .sidebar-header {
+            padding: 1.2rem;
+            border-bottom: 1px solid var(--border);
+            background: var(--pri);
+            color: #fff;
+        }
+
+        .sidebar-header h2 {
+            font-family: 'Syne', sans-serif;
+            font-size: 1rem;
+            font-weight: 700;
+        }
+
+        .sidebar-header p {
+            font-size: 0.78rem;
+            color: rgba(255, 255, 255, 0.65);
+            margin-top: 2px;
+        }
+
+        .sidebar-search {
+            padding: 10px;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .sidebar-search input {
+            width: 100%;
+            padding: 8px 12px;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            font-size: 0.85rem;
+            font-family: 'Space Grotesk', sans-serif;
+            background: var(--bg);
+            outline: none;
+        }
+
+        .sidebar-search input:focus {
+            border-color: var(--pri2);
+        }
+
+        .room-list {
+            flex: 1;
+            padding: 8px;
+        }
+
+        .room-item {
+            padding: 10px 12px;
+            border-radius: 8px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 2px;
+            transition: background 0.15s;
+            border: 1px solid transparent;
+        }
+
+        .room-item:hover {
+            background: var(--bg);
+        }
+
+        .room-item.selected {
+            background: rgba(45, 92, 64, 0.1);
+            border-color: var(--pri2);
+        }
+
+        .room-item .room-icon {
+            width: 34px;
+            height: 34px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.1rem;
+            flex-shrink: 0;
+        }
+
+        .room-item .ri-green {
+            background: #d4f0dd;
+        }
+
+        .room-item .ri-blue {
+            background: #d0e8f8;
+        }
+
+        .room-item .ri-amber {
+            background: #fdebd0;
+        }
+
+        .room-item .ri-red {
+            background: #fde0de;
+        }
+
+        .room-item .ri-purple {
+            background: #ede0f8;
+        }
+
+        .room-info strong {
+            font-size: 0.85rem;
+            display: block;
+            color: var(--text);
+        }
+
+        .room-info small {
+            font-size: 0.75rem;
+            color: var(--muted);
+        }
+
+        .map-main {
+            flex: 1;
+            overflow: auto;
+            background: var(--bg2);
+            position: relative;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .map-toolbar {
+            background: var(--card);
+            border-bottom: 1px solid var(--border);
+            padding: 10px 16px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .map-toolbar h3 {
+            font-family: 'Syne', sans-serif;
+            font-size: 0.95rem;
+            font-weight: 700;
+            flex: 1;
+        }
+
+        .map-btn {
+            background: var(--bg);
+            border: 1px solid var(--border);
+            border-radius: 7px;
+            padding: 6px 14px;
+            font-size: 0.8rem;
+            font-family: 'Space Grotesk', sans-serif;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            color: var(--text);
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .map-btn:hover {
+            background: var(--pri2);
+            color: #fff;
+            border-color: var(--pri2);
+        }
+
+        .map-btn.danger {
+            background: #fde0de;
+            color: var(--red);
+            border-color: var(--red);
+        }
+
+        .map-btn.danger:hover {
+            background: var(--red);
+            color: #fff;
+        }
+
+        .map-scroll {
+            flex: 1;
+            overflow: auto;
+            padding: 16px;
+            display: flex;
+            justify-content: center;
+        }
+
+        .path-info {
+            background: var(--pri2);
+            color: #fff;
+            padding: 10px 16px;
+            font-size: 0.82rem;
+            display: none;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .path-info.visible {
+            display: flex;
+        }
+
+        .path-step {
+            background: rgba(255, 255, 255, 0.15);
+            border-radius: 6px;
+            padding: 3px 10px;
+            font-size: 0.78rem;
+        }
+
+        /* ---- AI PROMPT BOX ---- */
+        #ai-prompt-bar {
+            background: linear-gradient(135deg, #0f2a1e 0%, #1a3a2a 100%);
+            border-bottom: 1px solid var(--border);
+            padding: 10px 16px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            flex-wrap: wrap;
+            position: relative;
+        }
+
+        #ai-prompt-bar .ai-label {
+            font-size: 0.72rem;
+            font-weight: 700;
+            color: var(--acc2);
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            white-space: nowrap;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        #ai-prompt-input {
+            flex: 1;
+            padding: 9px 14px;
+            border: 1.5px solid rgba(232, 160, 32, 0.3);
+            border-radius: 8px;
+            font-size: 0.85rem;
+            font-family: 'Space Grotesk', sans-serif;
+            background: rgba(255, 255, 255, 0.08);
+            color: #fff;
+            outline: none;
+            min-width: 180px;
+            transition: border-color 0.2s;
+        }
+
+        #ai-prompt-input::placeholder {
+            color: rgba(255, 255, 255, 0.4);
+        }
+
+        #ai-prompt-input:focus {
+            border-color: var(--acc);
+        }
+
+        #ai-prompt-btn {
+            background: var(--acc);
+            color: var(--pri);
+            border: none;
+            border-radius: 8px;
+            padding: 9px 18px;
+            font-family: 'Space Grotesk', sans-serif;
+            font-weight: 700;
+            font-size: 0.85rem;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            transition: all 0.2s;
+            white-space: nowrap;
+        }
+
+        #ai-prompt-btn:hover {
+            background: var(--acc2);
+            transform: translateY(-1px);
+        }
+
+        #ai-prompt-btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        #ai-prompt-exit-btn {
+            background: #27ae60;
+            color: #fff;
+            border: none;
+            border-radius: 8px;
+            padding: 9px 16px;
+            font-family: 'Space Grotesk', sans-serif;
+            font-weight: 700;
+            font-size: 0.82rem;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            transition: all 0.2s;
+            white-space: nowrap;
+        }
+
+        #ai-prompt-exit-btn:hover {
+            background: #2ecc71;
+        }
+
+        /* ---- AI RESPONSE PANEL ---- */
+        #ai-response-panel {
+            display: none;
+            background: linear-gradient(135deg, #e8f5e9 0%, #f1f8e9 100%);
+            border-bottom: 2px solid #27ae60;
+            padding: 14px 18px;
+            position: relative;
+            animation: slideDown 0.3s ease;
+        }
+
+        #ai-response-panel.visible {
+            display: block;
+        }
+
+        @keyframes slideDown {
+            from {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        #ai-response-panel .ai-resp-header {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 8px;
+        }
+
+        #ai-response-panel .ai-resp-header .ai-badge {
+            background: var(--pri2);
+            color: #fff;
+            font-size: 0.7rem;
+            font-weight: 700;
+            padding: 3px 8px;
+            border-radius: 20px;
+            letter-spacing: 0.06em;
+        }
+
+        #ai-response-panel .ai-resp-title {
+            font-family: 'Syne', sans-serif;
+            font-size: 0.95rem;
+            font-weight: 700;
+            color: var(--pri);
+            flex: 1;
+        }
+
+        #ai-response-panel .ai-close-btn {
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-size: 1.1rem;
+            color: var(--muted);
+            padding: 2px 6px;
+            border-radius: 4px;
+            transition: background 0.15s;
+        }
+
+        #ai-response-panel .ai-close-btn:hover {
+            background: rgba(0, 0, 0, 0.08);
+        }
+
+        #ai-response-text {
+            font-size: 0.88rem;
+            color: #1a3a2a;
+            line-height: 1.75;
+        }
+
+        #ai-response-text strong {
+            color: var(--pri);
+        }
+
+        .ai-steps-list {
+            list-style: none;
+            margin-top: 8px;
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+        }
+
+        .ai-steps-list li {
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+            padding: 6px 10px;
+            background: rgba(255, 255, 255, 0.7);
+            border-radius: 7px;
+            font-size: 0.84rem;
+            color: var(--pri);
+            border-left: 3px solid var(--safe2);
+        }
+
+        .ai-steps-list li .step-num {
+            background: var(--pri2);
+            color: #fff;
+            font-size: 0.72rem;
+            font-weight: 700;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            margin-top: 1px;
+        }
+
+        .ai-typing {
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            padding: 4px 0;
+        }
+
+        .ai-typing span {
+            width: 7px;
+            height: 7px;
+            background: var(--pri2);
+            border-radius: 50%;
+            animation: typingBounce 1.2s ease-in-out infinite;
+        }
+
+        .ai-typing span:nth-child(2) {
+            animation-delay: 0.2s;
+        }
+
+        .ai-typing span:nth-child(3) {
+            animation-delay: 0.4s;
+        }
+
+        @keyframes typingBounce {
+
+            0%,
+            80%,
+            100% {
+                transform: scale(0.7);
+                opacity: 0.5;
+            }
+
+            40% {
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
+
+        /* ---- SVG MAP ---- */
+        svg.campus-map {
+            display: block;
+        }
+
+        .room-box {
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .room-box rect {
+            fill: #f0ede5;
+            stroke: #999;
+            stroke-width: 1;
+            rx: 4;
+        }
+
+        .room-box:hover rect {
+            fill: #d4eedd;
+            stroke: var(--pri2);
+            stroke-width: 1.5;
+        }
+
+        .room-box.highlighted rect {
+            fill: #d4eedd;
+            stroke: var(--pri2);
+            stroke-width: 2;
+        }
+
+        .room-box.destination rect {
+            fill: #fff0cc;
+            stroke: var(--acc);
+            stroke-width: 2.5;
+        }
+
+        .path-overlay {
+            pointer-events: none;
+        }
+
+        .nav-path {
+            stroke: var(--pri2);
+            stroke-width: 3;
+            fill: none;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+            stroke-dasharray: 8 4;
+            animation: dashMove 0.8s linear infinite;
+        }
+
+        .nav-path-emergency {
+            stroke: var(--safe2);
+            stroke-width: 4;
+            fill: none;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+            stroke-dasharray: 10 4;
+            animation: dashMove 0.6s linear infinite;
+        }
+
+        .blocked-path {
+            stroke: var(--red2);
+            stroke-width: 4;
+            fill: none;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+            opacity: 0.8;
+        }
+
+        @keyframes dashMove {
+            to {
+                stroke-dashoffset: -12;
+            }
+        }
+
+        .exit-marker {
+            cursor: pointer;
+        }
+
+        .exit-pulse {
+            animation: pulse 1.5s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+
+            0%,
+            100% {
+                opacity: 1;
+                r: 10
+            }
+
+            50% {
+                opacity: 0.7;
+                r: 13
+            }
+        }
+
+        .map-label {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 9px;
+            fill: #333;
+            text-anchor: middle;
+            pointer-events: none;
+            dominant-baseline: middle;
+        }
+
+        .map-label-sm {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 7.5px;
+            fill: #555;
+            text-anchor: middle;
+            pointer-events: none;
+            dominant-baseline: middle;
+        }
+
+        .map-room-num {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 7px;
+            fill: #777;
+            text-anchor: middle;
+            pointer-events: none;
+            dominant-baseline: middle;
+        }
+
+        .section-label {
+            font-family: 'Syne', sans-serif;
+            font-size: 11px;
+            fill: var(--pri);
+            font-weight: 700;
+            text-anchor: middle;
+            pointer-events: none;
+        }
+
+        .block-divider {
+            fill: none;
+            stroke: #bbb;
+            stroke-width: 1;
+            stroke-dasharray: 4 3;
+        }
+
+        /* ---- EMERGENCY ---- */
+        .emergency-header {
+            background: #8b0000;
+            color: #fff;
+            padding: 1.5rem 2rem;
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            animation: emergencyPulse 1s ease-in-out infinite;
+        }
+
+        @keyframes emergencyPulse {
+
+            0%,
+            100% {
+                background: #8b0000
+            }
+
+            50% {
+                background: #c0392b
+            }
+        }
+
+        .emergency-header h1 {
+            font-family: 'Syne', sans-serif;
+            font-size: 1.8rem;
+            font-weight: 800;
+        }
+
+        .emergency-body {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        .emergency-grid {
+            display: grid;
+            grid-template-columns: 1fr 320px;
+            gap: 20px;
+        }
+
+        .emergency-map-wrap {
+            background: var(--card);
+            border-radius: 14px;
+            padding: 1rem;
+            border: 2px solid var(--red2);
+            overflow: auto;
+        }
+
+        .emergency-info {}
+
+        .emergency-card {
+            background: var(--card);
+            border-radius: 12px;
+            padding: 1.4rem;
+            margin-bottom: 14px;
+            border-left: 4px solid var(--red2);
+        }
+
+        .emergency-card.safe {
+            border-left-color: var(--safe2);
+        }
+
+        .emergency-card h3 {
+            font-family: 'Syne', sans-serif;
+            font-size: 1rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .emergency-card ul {
+            list-style: none;
+        }
+
+        .emergency-card ul li {
+            font-size: 0.85rem;
+            padding: 5px 0;
+            border-bottom: 1px solid var(--bg);
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            color: var(--muted);
+        }
+
+        .emergency-card ul li::before {
+            content: '';
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: var(--safe);
+            flex-shrink: 0;
+        }
+
+        .emergency-card ul li.blocked::before {
+            background: var(--red2);
+        }
+
+        .emergency-legend {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-top: 8px;
+        }
+
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 0.8rem;
+        }
+
+        .legend-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+        }
+
+        /* ---- FRESHER MODE ---- */
+        .fresher-header {
+            background: linear-gradient(135deg, #1a4a8a 0%, #2d6abf 100%);
+            color: #fff;
+            padding: 3rem 2rem;
+            text-align: center;
+        }
+
+        .fresher-header h1 {
+            font-family: 'Syne', sans-serif;
+            font-size: 2.2rem;
+            font-weight: 800;
+            margin-bottom: 0.5rem;
+        }
+
+        .fresher-header p {
+            color: rgba(255, 255, 255, 0.8);
+            font-size: 1rem;
+        }
+
+        .fresher-body {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        .fresher-layout {
+            display: grid;
+            grid-template-columns: 1fr 300px;
+            gap: 20px;
+        }
+
+        .tour-controls {
+            background: var(--card);
+            border-radius: 14px;
+            padding: 1.4rem;
+            border: 1px solid var(--border);
+        }
+
+        .tour-controls h3 {
+            font-family: 'Syne', sans-serif;
+            font-size: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .tour-stops {
+            list-style: none;
+        }
+
+        .tour-stop {
+            padding: 10px 12px;
+            border-radius: 8px;
+            margin-bottom: 6px;
+            cursor: pointer;
+            border: 1px solid var(--border);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            transition: all 0.2s;
+        }
+
+        .tour-stop:hover {
+            background: var(--bg);
+        }
+
+        .tour-stop.active {
+            background: rgba(29, 68, 138, 0.1);
+            border-color: #1a4a8a;
+        }
+
+        .tour-stop .stop-num {
+            width: 26px;
+            height: 26px;
+            border-radius: 50%;
+            background: var(--bg);
+            font-size: 0.8rem;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            color: var(--muted);
+        }
+
+        .tour-stop.active .stop-num {
+            background: #1a4a8a;
+            color: #fff;
+        }
+
+        .tour-stop-info strong {
+            font-size: 0.85rem;
+        }
+
+        .tour-stop-info small {
+            font-size: 0.75rem;
+            color: var(--muted);
+        }
+
+        .tour-nav-btns {
+            display: flex;
+            gap: 8px;
+            margin-top: 1rem;
+        }
+
+        .tour-btn {
+            flex: 1;
+            padding: 10px;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            font-family: 'Space Grotesk', sans-serif;
+            font-weight: 600;
+            font-size: 0.85rem;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .tour-btn.pri {
+            background: #1a4a8a;
+            color: #fff;
+            border-color: #1a4a8a;
+        }
+
+        .tour-btn:hover {
+            opacity: 0.85;
+        }
+
+        .orientation-banner {
+            background: linear-gradient(90deg, var(--acc), var(--acc2));
+            color: var(--pri);
+            border-radius: 12px;
+            padding: 1rem 1.4rem;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .orientation-banner .oi {
+            font-size: 1.8rem;
+        }
+
+        .orientation-banner p {
+            font-size: 0.85rem;
+            line-height: 1.5;
+        }
+
+        .orientation-banner strong {
+            display: block;
+            font-size: 1rem;
+            margin-bottom: 2px;
+        }
+
+        .info-panel {
+            background: var(--card);
+            border-radius: 12px;
+            padding: 1.2rem;
+            border: 1px solid var(--border);
+            margin-top: 12px;
+        }
+
+        .info-panel h4 {
+            font-family: 'Syne', sans-serif;
+            font-size: 0.9rem;
+            color: var(--pri);
+            margin-bottom: 0.5rem;
+        }
+
+        .info-panel p {
+            font-size: 0.82rem;
+            color: var(--muted);
+            line-height: 1.6;
+        }
+
+        /* Responsive */
+        @media(max-width:768px) {
+            .map-layout {
+                flex-direction: column;
+                height: auto;
+            }
+
+            .map-sidebar {
+                width: 100%;
+            }
+
+            .emergency-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .fresher-layout {
+                grid-template-columns: 1fr;
+            }
+
+            nav {
+                padding: 0 1rem;
+            }
+
+            .nav-links button {
+                padding: 6px 9px;
+                font-size: 0.78rem;
+            }
+
+            #ai-prompt-bar {
+                flex-wrap: wrap;
+            }
+
+            #ai-prompt-input {
+                min-width: 120px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- NAV -->
+    <nav>
+        <div class="nav-brand">
+            <div class="logo">PU</div>
+            <span>Parul University Navigator</span>
+        </div>
+        <div class="nav-links">
+            <button class="active" onclick="showPage('home')">🏠 Home</button>
+            <button onclick="showPage('about')">ℹ️ About</button>
+            <button onclick="showPage('map')">🗺️ Navigate</button>
+            <button onclick="showPage('emergency')" style="color:#ff8a80;">🚨 Emergency</button>
+            <button onclick="showPage('fresher')" style="color:#80d8ff;">🎓 Fresher</button>
+        </div>
+    </nav>
+
+    <!-- ============ HOME ============ -->
+    <div id="page-home" class="page active">
+        <div class="home-hero">
+            <div class="hero-inner">
+                <div class="hero-tag">📍 Parul University Campus</div>
+                <h1>Navigate Your<br>Campus — Instantly</h1>
+                <p>Find any room, lab, or facility with turn-by-turn paths. Built from the official campus blueprint for
+                    students, staff &amp; freshers.</p>
+                <div class="hero-btns">
+                    <button class="btn-pri" onclick="showPage('map')">🗺️ Navigate Campus</button>
+                    <button class="btn-sec" onclick="showPage('fresher')">🎓 Fresher Mode</button>
+                </div>
+            </div>
+        </div>
+        <div class="home-cards">
+            <div class="feature-card" onclick="showPage('map')">
+                <div class="card-icon">🗺️</div>
+                <h3>Campus Navigation</h3>
+                <p>Interactive floor map with real paths to every room, lab, office, and facility. Tap any destination
+                    to get directions.</p>
+                <div class="card-arrow">→</div>
+            </div>
+            <div class="feature-card red" onclick="showPage('emergency')">
+                <div class="card-icon">🚨</div>
+                <h3>Emergency Mode</h3>
+                <p>Fire emergency view with exit highlights, blocked path markers, and safe route guidance in real time.
+                </p>
+                <div class="card-arrow">→</div>
+            </div>
+            <div class="feature-card amber" onclick="showPage('fresher')">
+                <div class="card-icon">🎓</div>
+                <h3>Fresher Guided Tour</h3>
+                <p>Step-by-step orientation for new students — key places, restrooms, canteen, hostel and orientation
+                    navigation.</p>
+                <div class="card-arrow">→</div>
+            </div>
+            <div class="feature-card" onclick="showPage('about')">
+                <div class="card-icon">🏛️</div>
+                <h3>About the Campus</h3>
+                <p>Explore the campus facilities, departments, labs, and everything Parul University's academic block
+                    has to offer.</p>
+                <div class="card-arrow">→</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ============ ABOUT ============ -->
+    <div id="page-about" class="page">
+        <div class="about-hero">
+            <h1>About Parul University</h1>
+            <p>A comprehensive overview of our campus facilities and academic infrastructure</p>
+        </div>
+        <div class="about-body">
+            <div class="about-grid">
+                <div class="about-stat">
+                    <div class="num">30+</div>
+                    <p>Lecture Rooms</p>
+                </div>
+                <div class="about-stat">
+                    <div class="num">8+</div>
+                    <p>Specialised Labs</p>
+                </div>
+                <div class="about-stat">
+                    <div class="num">2</div>
+                    <p>Dean's Offices</p>
+                </div>
+                <div class="about-stat">
+                    <div class="num">1</div>
+                    <p>Seminar Hall</p>
+                </div>
+            </div>
+            <div class="about-section">
+                <h2>🏛️ Academic Block</h2>
+                <p>The main academic block houses all lecture rooms (GF-101 through GF-134), administrative offices,
+                    dean's office, seminar hall, and specialist facilities. The block is organized across two connected
+                    wings with central corridors and multiple washroom facilities for students and staff.</p>
+            </div>
+            <div class="about-section">
+                <h2>🔬 Laboratories &amp; Specialist Rooms</h2>
+                <ul>
+                    <li>Computer Lab (GF-125)</li>
+                    <li>Biochemistry Lab (GF-132)</li>
+                    <li>Pharmacy Lab (GF-126)</li>
+                    <li>Central Instrument Room</li>
+                    <li>Chemistry Lab (GF-133)</li>
+                    <li>Nutrition Lab</li>
+                    <li>MCL Lab</li>
+                    <li>Human Anatomy &amp; Physio Lab (GF-112)</li>
+                    <li>Electro Lab (GF-113)</li>
+                    <li>Physio Lab (GF-114)</li>
+                </ul>
+            </div>
+            <div class="about-section">
+                <h2>📚 Library &amp; Facilities</h2>
+                <ul>
+                    <li>Main Library (GF-106)</li>
+                    <li>Table Tennis Area</li>
+                    <li>Seminar Hall (GF-107 area)</li>
+                    <li>Service Room &amp; Washroom</li>
+                    <li>Nutrition Centre</li>
+                    <li>Admin Office (GF-133 area)</li>
+                    <li>Multiple Staff Rooms</li>
+                </ul>
+            </div>
+            <div class="about-section">
+                <h2>🏠 Campus Facilities</h2>
+                <ul>
+                    <li>Student Hostel (Faculty Hostel Block)</li>
+                    <li>Canteen</li>
+                    <li>Parking Lot</li>
+                    <li>Boys &amp; Girls Washrooms</li>
+                    <li>Drinking Water Stations</li>
+                    <li>Electric Rooms (2)</li>
+                </ul>
+            </div>
+            <div class="about-section">
+                <h2>🚪 Campus Exits</h2>
+                <ul>
+                    <li>Exit 1 — Main Entrance (Near Academic Block / Behind Parking)</li>
+                    <li>Exit 2 — Faculty Hostel Side Exit</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <!-- ============ MAP ============ -->
+    <div id="page-map" class="page">
+        <div class="map-layout">
+            <div class="map-sidebar">
+                <div class="sidebar-header">
+                    <h2>🗺️ Campus Rooms</h2>
+                    <p>Select destination for directions</p>
+                </div>
+                <div style="padding:10px;border-bottom:1px solid var(--border);background:#fffdf7;">
+                    <label
+                        style="font-size:0.72rem;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:0.07em;display:block;margin-bottom:5px;">📍
+                        You are here</label>
+                    <select id="user-location-select" onchange="setUserLocation(this.value)"
+                        style="width:100%;padding:7px 10px;border:1px solid var(--border);border-radius:8px;font-size:0.82rem;font-family:'Space Grotesk',sans-serif;background:var(--bg);outline:none;cursor:pointer;">
+                        <option value="entrance">Main Entrance (Default)</option>
+                    </select>
+                </div>
+                <div id="exit-suggestion"
+                    style="padding:10px;border-bottom:1px solid var(--border);background:#f0faf4;font-size:0.82rem;">
+                    <div style="color:var(--muted);font-size:0.78rem;">Select your location above to see nearest exit
+                    </div>
+                </div>
+                <div class="sidebar-search">
+                    <input type="text" id="room-search" placeholder="Search destination…"
+                        oninput="filterRooms(this.value)">
+                </div>
+                <div class="room-list" id="room-list"></div>
+            </div>
+            <div class="map-main">
+                <div class="map-toolbar">
+                    <h3 id="toolbar-title">Parul University — Campus Map</h3>
+                    <button class="map-btn" onclick="clearPath()">✕ Clear</button>
+                    <button class="map-btn" onclick="zoomIn()">＋ Zoom</button>
+                    <button class="map-btn" onclick="zoomOut()">－ Zoom</button>
+                    <button class="map-btn danger" onclick="showPage('emergency')">🚨 Emergency</button>
+                </div>
+
+                <!-- ===== AI PROMPT BAR ===== -->
+                <div id="ai-prompt-bar">
+                    <div class="ai-label">✨ AI Navigator</div>
+                    <input type="text" id="ai-prompt-input"
+                        placeholder="e.g. give my current location and navigate me to the closest exit"
+                        value="give my current location and from there navigate me to the available closest exit"
+                        onkeydown="if(event.key==='Enter') handleAiPrompt()">
+                    <button id="ai-prompt-btn" onclick="handleAiPrompt()">
+                        <span id="ai-btn-text">Ask AI 🤖</span>
+                    </button>
+                    <button id="ai-prompt-exit-btn" onclick="quickNavigateToExit()">
+                        🚪 Nearest Exit
+                    </button>
+                </div>
+
+                <!-- ===== AI RESPONSE PANEL ===== -->
+                <div id="ai-response-panel">
+                    <div class="ai-resp-header">
+                        <span class="ai-badge">AI RESPONSE</span>
+                        <div class="ai-resp-title" id="ai-resp-title">Navigation Instructions</div>
+                        <button class="ai-close-btn" onclick="closeAiPanel()">✕</button>
+                    </div>
+                    <div id="ai-response-text"></div>
+                </div>
+
+                <div class="path-info" id="path-info">
+                    <span>📍</span>
+                    <span id="path-text">Select a room to see directions</span>
+                </div>
+                <div class="map-scroll" id="map-scroll">
+                    <div id="map-container" style="transform-origin:top center; transition:transform 0.3s;"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ============ EMERGENCY ============ -->
+    <div id="page-emergency" class="page">
+        <div class="emergency-header">
+            <span style="font-size:2.5rem;">🔥</span>
+            <div>
+                <h1>FIRE EMERGENCY MODE</h1>
+                <p style="font-size:0.9rem;opacity:0.85;">Follow GREEN safe routes — avoid RED blocked paths — exit
+                    immediately</p>
+            </div>
+        </div>
+        <div class="emergency-body">
+            <div class="emergency-grid">
+                <div class="emergency-map-wrap" id="emergency-map-wrap"></div>
+                <div class="emergency-info">
+                    <div id="emergency-nearest-exit">
+                        <!-- Dynamically rendered by refreshEmergencyPage() -->
+                    </div>
+                    <!-- Location selector for emergency -->
+                    <div
+                        style="background:var(--card);border-radius:12px;padding:1rem;margin-bottom:14px;border:1px solid var(--border);">
+                        <label
+                            style="font-size:0.72rem;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:0.07em;display:block;margin-bottom:6px;">📍
+                            I am currently at</label>
+                        <select id="emergency-location-select" onchange="setEmergencyLocation(this.value)"
+                            style="width:100%;padding:8px 10px;border:1.5px solid var(--red2);border-radius:8px;font-size:0.82rem;font-family:'Space Grotesk',sans-serif;background:#fff8f8;outline:none;cursor:pointer;color:var(--text);">
+                            <option value="entrance">Main Entrance</option>
+                        </select>
+                    </div>
+                    <div class="emergency-card">
+                        <h3>🚪 Emergency Exits</h3>
+                        <ul>
+                            <li>Exit 1 — Main Entrance (Front of campus, near Academic Block)</li>
+                            <li>Exit 2 — Faculty Hostel Side Gate (Left rear of campus)</li>
+                        </ul>
+                    </div>
+                    <div class="emergency-card safe">
+                        <h3>✅ Safe Routes</h3>
+                        <ul>
+                            <li>Main Corridor → Main Entrance</li>
+                            <li>Left Wing Corridor → Hostel Exit</li>
+                            <li>Right wing to main corridor → Main Exit</li>
+                            <li>Ground floor direct paths to both exits</li>
+                        </ul>
+                    </div>
+                    <div class="emergency-card">
+                        <h3>🚫 Blocked Paths</h3>
+                        <ul>
+                            <li class="blocked">Electric Room areas — potential fire hazard</li>
+                            <li class="blocked">Chemistry Lab corridor (right side)</li>
+                            <li class="blocked">Rear staircase near service room</li>
+                        </ul>
+                    </div>
+                    <div class="emergency-card" style="border-left-color:var(--warn)">
+                        <h3>⚠️ Instructions</h3>
+                        <ul>
+                            <li>Leave all belongings</li>
+                            <li>Do not use elevators</li>
+                            <li>Help injured persons first</li>
+                            <li>Assemble at Parking Lot</li>
+                            <li>Call 112 immediately</li>
+                        </ul>
+                    </div>
+                    <div class="emergency-legend">
+                        <div class="legend-item">
+                            <div class="legend-dot" style="background:var(--safe2)"></div>Safe path
+                        </div>
+                        <div class="legend-item">
+                            <div class="legend-dot" style="background:var(--red2)"></div>Blocked
+                        </div>
+                        <div class="legend-item">
+                            <div class="legend-dot" style="background:var(--acc)"></div>Exit
+                        </div>
+                        <div class="legend-item">
+                            <div class="legend-dot"
+                                style="background:#e74c3c88;width:14px;height:14px;border-radius:2px"></div>Danger zone
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ============ FRESHER ============ -->
+    <div id="page-fresher" class="page">
+        <div class="fresher-header">
+            <div>🎓</div>
+            <h1>Lost Fresher Mode</h1>
+            <p>Welcome to Parul University! Let us guide you through the campus step by step.</p>
+        </div>
+        <div class="fresher-body">
+            <div class="orientation-banner">
+                <span class="oi">📢</span>
+                <p><strong>Orientation Day Navigation</strong> Going to Seminar Hall? Follow the highlighted path on the
+                    map. Seminar Hall is in the upper section of the Academic Block near GF-107.</p>
+            </div>
+            <div class="fresher-layout">
+                <div>
+                    <div id="fresher-map-wrap"
+                        style="background:var(--card);border-radius:14px;padding:1rem;border:1px solid var(--border);overflow:auto;">
+                    </div>
+                    <div class="info-panel" id="fresher-info-panel">
+                        <h4>👆 Select a stop from the list to highlight it on the map</h4>
+                        <p>The guided tour will walk you through the most important places on campus for new students.
+                        </p>
+                    </div>
+                </div>
+                <div class="tour-controls">
+                    <h3>🗺️ Campus Tour Stops</h3>
+                    <ul class="tour-stops" id="tour-stops"></ul>
+                    <div class="tour-nav-btns">
+                        <button class="tour-btn" onclick="prevStop()">← Prev</button>
+                        <button class="tour-btn pri" onclick="nextStop()">Next →</button>
+                    </div>
+                    <div class="info-panel"
+                        style="margin-top:12px;background:rgba(29,68,138,0.06);border-color:#1a4a8a44;">
+                        <h4 style="color:#1a4a8a;">🧭 Orientation: Seminar Hall</h4>
+                        <p>For orientation day, proceed from the Main Entrance → Academic Block → Upper Corridor →
+                            <strong>Seminar Hall (GF-107 area)</strong>. Look for the yellow highlighted path on the
+                            map.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // =================== STATE ===================
+        let currentZoom = 1;
+        let selectedRoom = null;
+        let currentTourStop = 0;
+        let userLocationId = null;
+
+        // Exit definitions
+        const EXITS = [
+            {
+                id: 'exit-1', label: 'Exit 1 — Main Gate', x: 640, y: 660, icon: '🚪',
+                path: (fromPts) => [...fromPts, [640, 615], [640, 660]],
+                steps: '→ Main Corridor → Right → Main Gate (EX1)'
+            },
+            {
+                id: 'exit-2', label: 'Exit 2 — Hostel Gate', x: 100, y: 700, icon: '🚗',
+                path: (fromPts) => [...fromPts, [100, 615], [100, 700]],
+                steps: '→ Left Corridor → Ground → Hostel Gate (EX2)'
+            },
+        ];
+
+        const roomJunctions = {
+            'seminar-hall': [340, 450], 'library': [160, 300],
+            'dean-office-1': [100, 300], 'dean-office-2': [100, 480],
+            'computer-lab': [100, 300], 'biochem-lab': [310, 450],
+            'pharma-lab': [380, 450], 'chem-lab': [480, 450],
+            'central-instrument': [450, 450], 'nutrition-lab': [200, 300],
+            'mcl-lab': [510, 300], 'anatomy-lab': [590, 615],
+            'electro-lab': [590, 615], 'physio-lab': [590, 615],
+            'admin-office': [100, 480], 'staff-room-1': [100, 300],
+            'staff-room-2': [100, 415], 'service-room': [510, 615],
+            'hostel': [190, 700], 'canteen': [430, 700],
+            'parking': [530, 700], 'academic-block': [370, 615],
+            'entrance': [640, 680], 'washroom-boys': [540, 615],
+            'washroom-girls': [570, 615], 'drinking-water': [175, 615],
+            'gf-115': [430, 615], 'gf-116': [370, 615],
+            'gf-117': [310, 615], 'gf-118': [250, 615],
+            'gf-101': [100, 550], 'gf-102': [100, 550],
+            'gf-103': [100, 550], 'gf-104': [100, 300],
+            'gf-110': [440, 615], 'gf-124': [200, 615],
+            'gf-127': [450, 615], 'gf-131': [370, 615],
+            'gf-134': [290, 615], 'nutrition-gf': [510, 615],
+        };
+
+        function dist(ax, ay, bx, by) { return Math.sqrt((ax - bx) ** 2 + (ay - by) ** 2); }
+
+        function getNearestExit(roomId) {
+            const junc = roomJunctions[roomId] || [370, 615];
+            let best = EXITS[0], bestD = Infinity;
+            for (const ex of EXITS) {
+                const d = dist(junc[0], junc[1], ex.x, ex.y);
+                if (d < bestD) { bestD = d; best = ex; }
+            }
+            return { exit: best, distPx: Math.round(bestD) };
+        }
+
+        function getExitDistance(roomId, exitId) {
+            const junc = roomJunctions[roomId] || [370, 615];
+            const ex = EXITS.find(e => e.id === exitId);
+            return ex ? Math.round(dist(junc[0], junc[1], ex.x, ex.y)) : 9999;
+        }
+
+        const rooms = [
+            { id: 'seminar-hall', label: 'Seminar Hall', num: 'GF-107', type: 'admin', icon: '🎤', color: 'ri-amber', x: 340, y: 80, desc: 'Main seminar hall for orientation & events', floor: 'Ground' },
+            { id: 'library', label: 'Library', num: 'GF-106', type: 'admin', icon: '📚', color: 'ri-green', x: 160, y: 80, desc: 'Main library with reading areas', floor: 'Ground' },
+            { id: 'dean-office-1', label: "Dean's Office", num: 'GF-105', type: 'admin', icon: '🏛️', color: 'ri-purple', x: 100, y: 110, desc: 'Faculty dean office — upper wing', floor: 'Ground' },
+            { id: 'dean-office-2', label: "Dean's Office 2", num: 'GF-119', type: 'admin', icon: '🏛️', color: 'ri-purple', x: 100, y: 480, desc: 'Dean office — lower wing', floor: 'Ground' },
+            { id: 'computer-lab', label: 'Computer Lab', num: 'GF-125', type: 'lab', icon: '💻', color: 'ri-blue', x: 170, y: 230, desc: 'IT & computing laboratory', floor: 'Ground' },
+            { id: 'biochem-lab', label: 'Biochemistry Lab', num: 'GF-132', type: 'lab', icon: '🧪', color: 'ri-blue', x: 290, y: 230, desc: 'Biochemistry lab for science students', floor: 'Ground' },
+            { id: 'pharma-lab', label: 'Pharmacy Lab', num: 'GF-126', type: 'lab', icon: '💊', color: 'ri-blue', x: 380, y: 230, desc: 'Pharmaceutical sciences laboratory', floor: 'Ground' },
+            { id: 'chem-lab', label: 'Chemistry Lab', num: 'GF-133', type: 'lab', icon: '⚗️', color: 'ri-blue', x: 530, y: 230, desc: 'Chemistry lab with instruments', floor: 'Ground' },
+            { id: 'central-instrument', label: 'Instrument Room', num: 'CIR', type: 'lab', icon: '🔭', color: 'ri-blue', x: 450, y: 230, desc: 'Central instrument room', floor: 'Ground' },
+            { id: 'nutrition-lab', label: 'Nutrition Lab', num: 'NL', type: 'lab', icon: '🥗', color: 'ri-green', x: 200, y: 155, desc: 'Nutrition and food science lab', floor: 'Ground' },
+            { id: 'mcl-lab', label: 'MCL Lab', num: 'MCL', type: 'lab', icon: '🔬', color: 'ri-blue', x: 510, y: 155, desc: 'MCL laboratory', floor: 'Ground' },
+            { id: 'anatomy-lab', label: 'Anatomy & Physio Lab', num: 'GF-112', type: 'lab', icon: '🫀', color: 'ri-red', x: 590, y: 370, desc: 'Human anatomy and physiology lab', floor: 'Ground' },
+            { id: 'electro-lab', label: 'Electro Lab', num: 'GF-113', type: 'lab', icon: '⚡', color: 'ri-amber', x: 590, y: 410, desc: 'Electronics laboratory', floor: 'Ground' },
+            { id: 'physio-lab', label: 'Physio Lab', num: 'GF-114', type: 'lab', icon: '🏃', color: 'ri-red', x: 590, y: 445, desc: 'Physiotherapy lab', floor: 'Ground' },
+            { id: 'admin-office', label: 'Admin Office', num: 'GF-133', type: 'admin', icon: '📋', color: 'ri-purple', x: 100, y: 370, desc: 'Administration office', floor: 'Ground' },
+            { id: 'staff-room-1', label: 'Staff Room 1', num: 'SR1', type: 'admin', icon: '👥', color: 'ri-green', x: 100, y: 270, desc: 'Faculty staff room — upper wing', floor: 'Ground' },
+            { id: 'staff-room-2', label: 'Staff Room 2', num: 'GF-122', type: 'admin', icon: '👥', color: 'ri-green', x: 100, y: 415, desc: 'Faculty staff room — lower wing', floor: 'Ground' },
+            { id: 'service-room', label: 'Service Room & WC', num: 'GF-108', type: 'facility', icon: '🚿', color: 'ri-green', x: 510, y: 80, desc: 'Service room and washroom', floor: 'Ground' },
+            { id: 'nutrition-gf', label: 'Nutrition Room', num: 'GF-109', type: 'facility', icon: '🥗', color: 'ri-amber', x: 600, y: 80, desc: 'Nutrition department room', floor: 'Ground' },
+            { id: 'hostel', label: 'Hostel', num: 'HST', type: 'facility', icon: '🏠', color: 'ri-amber', x: 190, y: 700, desc: 'Student hostel / Faculty hostel block', floor: 'Ground' },
+            { id: 'canteen', label: 'Canteen', num: 'CAN', type: 'facility', icon: '🍽️', color: 'ri-amber', x: 430, y: 700, desc: 'Campus canteen', floor: 'Ground' },
+            { id: 'parking', label: 'Parking Lot', num: 'PKG', type: 'facility', icon: '🚗', color: 'ri-green', x: 530, y: 700, desc: 'Campus parking lot', floor: 'Ground' },
+            { id: 'academic-block', label: 'Academic Block', num: 'AB', type: 'facility', icon: '🏛️', color: 'ri-purple', x: 370, y: 615, desc: 'Main academic block entrance', floor: 'Ground' },
+            { id: 'entrance', label: 'Main Entrance', num: 'ENT', type: 'facility', icon: '🚪', color: 'ri-green', x: 640, y: 700, desc: 'Main campus entrance/exit', floor: 'Ground' },
+            { id: 'washroom-boys', label: 'Boys Washroom', num: 'WB', type: 'facility', icon: '🚹', color: 'ri-blue', x: 540, y: 540, desc: 'Boys washroom near GF-115', floor: 'Ground' },
+            { id: 'washroom-girls', label: 'Girls Washroom', num: 'WG', type: 'facility', icon: '🚺', color: 'ri-red', x: 570, y: 475, desc: 'Girls washroom near GF-119', floor: 'Ground' },
+            { id: 'drinking-water', label: 'Drinking Water', num: 'DW', type: 'facility', icon: '💧', color: 'ri-blue', x: 175, y: 555, desc: 'Drinking water station', floor: 'Ground' },
+            { id: 'gf-115', label: 'GF-115', num: 'GF-115', type: 'room', icon: '🚪', color: 'ri-green', x: 430, y: 540, desc: 'Lecture Room 115', floor: 'Ground' },
+            { id: 'gf-116', label: 'GF-116', num: 'GF-116', type: 'room', icon: '🚪', color: 'ri-green', x: 370, y: 540, desc: 'Lecture Room 116', floor: 'Ground' },
+            { id: 'gf-117', label: 'GF-117', num: 'GF-117', type: 'room', icon: '🚪', color: 'ri-green', x: 310, y: 540, desc: 'Lecture Room 117', floor: 'Ground' },
+            { id: 'gf-118', label: 'GF-118', num: 'GF-118', type: 'room', icon: '🚪', color: 'ri-green', x: 250, y: 540, desc: 'Lecture Room 118', floor: 'Ground' },
+            { id: 'gf-101', label: 'GF-101', num: 'GF-101', type: 'room', icon: '🚪', color: 'ri-green', x: 100, y: 300, desc: 'Lecture Room 101', floor: 'Ground' },
+            { id: 'gf-102', label: 'GF-102', num: 'GF-102', type: 'room', icon: '🚪', color: 'ri-green', x: 100, y: 260, desc: 'Lecture Room 102', floor: 'Ground' },
+            { id: 'gf-103', label: 'GF-103', num: 'GF-103', type: 'room', icon: '🚪', color: 'ri-green', x: 100, y: 240, desc: 'Lecture Room 103', floor: 'Ground' },
+            { id: 'gf-104', label: 'GF-104', num: 'GF-104', type: 'room', icon: '🚪', color: 'ri-green', x: 100, y: 155, desc: 'Lecture Room 104', floor: 'Ground' },
+            { id: 'gf-110', label: 'GF-110', num: 'GF-110', type: 'room', icon: '🚪', color: 'ri-green', x: 440, y: 80, desc: 'Lecture Room 110', floor: 'Ground' },
+            { id: 'gf-124', label: 'GF-124', num: 'GF-124', type: 'room', icon: '🚪', color: 'ri-green', x: 200, y: 480, desc: 'Lecture Room 124', floor: 'Ground' },
+            { id: 'gf-127', label: 'GF-127', num: 'GF-127', type: 'room', icon: '🚪', color: 'ri-green', x: 450, y: 480, desc: 'Lecture Room 127', floor: 'Ground' },
+            { id: 'gf-131', label: 'GF-131', num: 'GF-131', type: 'room', icon: '🚪', color: 'ri-green', x: 370, y: 480, desc: 'Lecture Room 131', floor: 'Ground' },
+            { id: 'gf-134', label: 'GF-134', num: 'GF-134', type: 'room', icon: '🚪', color: 'ri-green', x: 290, y: 480, desc: 'Lecture Room 134', floor: 'Ground' },
+            { id: 'exit-1', label: 'EXIT 1 — Main Gate', num: 'EX1', type: 'exit', icon: '🚪', color: 'ri-red', x: 640, y: 660, desc: 'Main campus exit near entrance', floor: 'Ground' },
+            { id: 'exit-2', label: 'EXIT 2 — Hostel Gate', num: 'EX2', type: 'exit', icon: '🚪', color: 'ri-red', x: 100, y: 700, desc: 'Hostel side exit gate', floor: 'Ground' },
+        ];
+
+        const pathSegments = {
+            'seminar-hall': [[340, 80], [340, 450], [310, 450], [310, 550], [370, 550], [370, 615]],
+            'library': [[160, 80], [160, 300], [100, 300], [100, 550], [370, 550], [370, 615]],
+            'dean-office-1': [[100, 110], [100, 300], [100, 550], [100, 615]],
+            'dean-office-2': [[100, 480], [100, 615]],
+            'computer-lab': [[170, 230], [100, 230], [100, 300], [100, 550], [100, 615]],
+            'biochem-lab': [[290, 230], [310, 230], [310, 450], [310, 550], [370, 615]],
+            'pharma-lab': [[380, 230], [380, 450], [380, 550], [370, 615]],
+            'chem-lab': [[530, 230], [530, 450], [480, 450], [480, 550], [370, 615]],
+            'central-instrument': [[450, 230], [450, 450], [480, 450], [480, 550], [370, 615]],
+            'nutrition-lab': [[200, 155], [200, 300], [100, 300], [100, 550], [100, 615]],
+            'mcl-lab': [[510, 155], [510, 300], [510, 550], [510, 615]],
+            'anatomy-lab': [[590, 370], [590, 615]],
+            'electro-lab': [[590, 410], [590, 615]],
+            'physio-lab': [[590, 445], [590, 615]],
+            'admin-office': [[100, 370], [100, 480], [100, 615]],
+            'staff-room-1': [[100, 270], [100, 300], [100, 550], [100, 615]],
+            'staff-room-2': [[100, 415], [100, 480], [100, 615]],
+            'service-room': [[510, 80], [510, 300], [510, 550], [510, 615]],
+            'hostel': [[190, 700], [100, 700], [100, 615]],
+            'canteen': [[430, 700], [430, 615], [370, 615]],
+            'parking': [[530, 700], [530, 615], [640, 615]],
+            'academic-block': [[370, 615]],
+            'entrance': [[640, 680], [640, 615]],
+            'washroom-boys': [[540, 540], [540, 615]],
+            'washroom-girls': [[570, 475], [570, 615]],
+            'drinking-water': [[175, 555], [175, 615], [100, 615]],
+            'gf-115': [[430, 540], [430, 615]],
+            'gf-116': [[370, 540], [370, 615]],
+            'gf-117': [[310, 540], [310, 615]],
+            'gf-118': [[250, 540], [250, 615]],
+            'gf-101': [[100, 300], [100, 550], [100, 615]],
+            'gf-102': [[100, 260], [100, 300], [100, 550], [100, 615]],
+            'gf-103': [[100, 240], [100, 300], [100, 550], [100, 615]],
+            'gf-104': [[100, 155], [100, 300], [100, 550], [100, 615]],
+            'gf-110': [[440, 80], [440, 550], [440, 615]],
+            'gf-124': [[200, 480], [200, 615]],
+            'gf-127': [[450, 480], [450, 615]],
+            'gf-131': [[370, 480], [370, 615]],
+            'gf-134': [[290, 480], [290, 615]],
+            'exit-1': [[640, 660], [640, 615]],
+            'exit-2': [[100, 700], [100, 615]],
+            'nutrition-gf': [[600, 80], [600, 615], [510, 615]],
+        };
+
+        function buildFullPath(fromId, toId) {
+            if (!fromId) fromId = 'entrance';
+            const fromSegs = pathSegments[fromId] ? [...pathSegments[fromId]] : [[640, 680], [640, 615]];
+            const toSegs = pathSegments[toId] ? [...pathSegments[toId]] : [[370, 615]];
+            const fromPts = fromSegs;
+            const toReverse = [...toSegs].reverse();
+            const full = [...fromPts];
+            for (const pt of toReverse) {
+                const last = full[full.length - 1];
+                if (last[0] !== pt[0] || last[1] !== pt[1]) full.push(pt);
+            }
+            return full;
+        }
+
+        const tourStops = [
+            { id: 'academic-block', label: 'Academic Block', icon: '🏛️', desc: 'Your main classes happen here. The block has two wings with lecture rooms, labs, and admin offices.' },
+            { id: 'dean-office-2', label: "Dean's Office", icon: '🏛️', desc: "Located at GF-119 in the lower wing. Come here for academic approvals, leave applications and queries." },
+            { id: 'seminar-hall', label: 'Seminar Hall', icon: '🎤', desc: 'GF-107 area. All orientations, guest lectures, and large events happen here. Remember this location!' },
+            { id: 'library', label: 'Library', icon: '📚', desc: 'GF-106. Open during college hours. You need your student ID to borrow books.' },
+            { id: 'computer-lab', label: 'Computer Lab', icon: '💻', desc: 'GF-125. Make sure to sign-in before using systems. Bring your lab manual.' },
+            { id: 'canteen', label: 'Canteen', icon: '🍽️', desc: 'Located near the hostel area. Open for breakfast, lunch and evening snacks.' },
+            { id: 'hostel', label: 'Hostel', icon: '🏠', desc: 'Faculty/student hostel block. If you are a hostel resident, this is your home!' },
+            { id: 'washroom-boys', label: 'Boys Washroom', icon: '🚹', desc: 'Located near GF-115 in the lower section. Girls washroom is near GF-119 area.' },
+            { id: 'drinking-water', label: 'Drinking Water', icon: '💧', desc: 'Water station near the lower wing. Always stay hydrated during long lecture days.' },
+            { id: 'exit-1', label: 'Main Exit Gate', icon: '🚪', desc: 'Main campus exit near the parking lot. This is where the college bus stops.' },
+        ];
+
+        // =================== MAP SVG ===================
+        function buildCampusSVG(mode = 'normal', fresherHighlight = null) {
+            const W = 720, H = 780;
+            let bg = mode === 'emergency' ? '#1a0000' : '#f8f5ee';
+            let blockFill = mode === 'emergency' ? '#2a1010' : '#eee8d8';
+            let wallStroke = mode === 'emergency' ? '#550000' : '#999';
+
+            let svg = `<svg class="campus-map" viewBox="0 0 ${W} ${H}" width="${W}" style="max-width:100%;">
+  <defs>
+    <marker id="arr" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5" markerHeight="5" orient="auto-start-reverse">
+      <path d="M1 1L8 5L1 9" fill="none" stroke="context-stroke" stroke-width="2" stroke-linecap="round"/>
+    </marker>
+    <filter id="glow"><feGaussianBlur stdDeviation="3" result="blur"/><feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+  </defs>
+  <rect width="${W}" height="${H}" fill="${bg}" rx="12"/>`;
+
+            svg += drawBlock(40, 50, 640, 175, blockFill, wallStroke, 'Upper Academic Wing');
+            svg += drawBlock(40, 200, 640, 170, blockFill, wallStroke, 'Lab Wing');
+            svg += drawBlock(40, 350, 640, 120, blockFill, wallStroke, 'Admin & Electric Wing');
+            svg += drawBlock(40, 450, 640, 120, blockFill, wallStroke, 'Lower Academic Wing');
+            svg += drawBlock(40, 580, 640, 80, '#e0dbd0', '#aaa', 'Campus Ground');
+            svg += drawBlock(40, 665, 240, 95, '#d4e8d8', '#7a9', 'Faculty Hostel');
+            svg += drawBlock(310, 665, 130, 75, '#fdebd0', '#c90', 'Canteen');
+            svg += drawBlock(460, 665, 130, 75, '#d0e8f8', '#26a', 'Parking Lot');
+            svg += drawBlock(610, 640, 80, 100, '#e8d4f0', '#739', 'Entrance');
+
+            if (mode === 'emergency' || mode === 'normal') {
+                svg += `<g class="exit-marker" onclick="selectRoom('exit-1')">
+      <circle cx="650" cy="660" r="14" fill="${mode === 'emergency' ? '#f39c12' : '#27ae60'}" opacity="0.9" ${mode === 'emergency' ? 'class="exit-pulse"' : ''} filter="url(#glow)"/>
+      <text x="650" y="660" text-anchor="middle" dominant-baseline="middle" font-size="10" fill="white" font-weight="700" font-family="Space Grotesk,sans-serif">EX1</text>
+    </g>`;
+                svg += `<g class="exit-marker" onclick="selectRoom('exit-2')">
+      <circle cx="60" cy="700" r="14" fill="${mode === 'emergency' ? '#f39c12' : '#27ae60'}" opacity="0.9" ${mode === 'emergency' ? 'class="exit-pulse"' : ''} filter="url(#glow)"/>
+      <text x="60" y="700" text-anchor="middle" dominant-baseline="middle" font-size="10" fill="white" font-weight="700" font-family="Space Grotesk,sans-serif">EX2</text>
+    </g>`;
+            }
+
+            for (const room of rooms) {
+                if (['exit-1', 'exit-2'].includes(room.id)) continue;
+                let isSelected = selectedRoom === room.id;
+                let isFresherHL = fresherHighlight === room.id;
+                let isOrientHL = mode === 'fresher' && room.id === 'seminar-hall';
+                let fill = '#f0ede5';
+                let stroke = '#aaa';
+                let strokeW = 1;
+                if (mode === 'emergency') { fill = '#2a1818'; stroke = '#553333'; }
+                if (isSelected) { fill = '#fff0cc'; stroke = '#e8a020'; strokeW = 2.5; }
+                if (isFresherHL) { fill = '#d0e8ff'; stroke = '#1a4a8a'; strokeW = 2.5; }
+                if (isOrientHL) { fill = '#ffe8a0'; stroke = '#e8a020'; strokeW = 2.5; }
+                if (mode === 'emergency' && ['anatomy-lab', 'electro-lab'].includes(room.id)) { fill = '#3a1000'; stroke = '#c0392b'; }
+                if (room.type === 'exit') continue;
+
+                let labelColor = mode === 'emergency' ? '#ffaaaa' : '#333';
+                let numColor = mode === 'emergency' ? '#ff6666' : '#888';
+                if (isSelected || isFresherHL || isOrientHL) { labelColor = '#1a3a2a'; numColor = '#2d5c40'; }
+
+                svg += `<g class="room-box ${isSelected ? 'destination' : ''}" onclick="selectRoom('${room.id}')">
+      <rect x="${room.x - 32}" y="${room.y - 14}" width="64" height="28" rx="5"
+        fill="${fill}" stroke="${stroke}" stroke-width="${strokeW}"/>
+      <text x="${room.x}" y="${room.y - 4}" class="map-label" fill="${labelColor}">${room.label.length > 12 ? room.label.substring(0, 11) + '…' : room.label}</text>
+      <text x="${room.x}" y="${room.y + 7}" class="map-room-num" fill="${numColor}">${room.num}</text>
+    </g>`;
+            }
+
+            svg += label(370, 35, 'PARUL UNIVERSITY CAMPUS MAP', 13, mode === 'emergency' ? '#ff8888' : '#1a3a2a', 700);
+            svg += `<text x="648" y="625" font-family="Space Grotesk,sans-serif" font-size="8" fill="${mode === 'emergency' ? '#ff8888' : '#333'}" text-anchor="middle" dominant-baseline="middle">▶ ENTRANCE</text>`;
+            svg += `<text x="370" y="638" font-family="Space Grotesk,sans-serif" font-size="9" fill="${mode === 'emergency' ? '#ff8888' : '#555'}" text-anchor="middle">🚶 → ACADEMIC BLOCK</text>`;
+
+            if (mode === 'emergency') {
+                // Danger zone overlays
+                svg += `<rect x="42" y="352" width="155" height="116" fill="#c0392b" opacity="0.15" rx="6"/>`;
+                svg += `<text x="120" y="415" font-family="Space Grotesk,sans-serif" font-size="9" fill="#e74c3c" text-anchor="middle" dominant-baseline="middle" font-weight="700">⚠ ELECTRIC ROOM</text>`;
+                svg += `<rect x="490" y="352" width="188" height="116" fill="#c0392b" opacity="0.12" rx="6"/>`;
+                svg += `<text x="585" y="415" font-family="Space Grotesk,sans-serif" font-size="9" fill="#e74c3c" text-anchor="middle" dominant-baseline="middle" font-weight="700">⚠ CHEM ZONE</text>`;
+
+                // Always show blocked corridors (fire hazard zones)
+                svg += blockedPath([[500, 350], [500, 200]]);
+                svg += blockedPath([[580, 350], [580, 200]]);
+                svg += blockedLine(400, 375, 650);
+
+                // ---- Dynamic nearest-exit routing based on user's current location ----
+                const emFromId = userLocationId || 'entrance';
+                const { exit: emExit, distPx: emDistPx } = getNearestExit(emFromId);
+                const emOtherExit = EXITS.find(e => e.id !== emExit.id);
+
+                // Draw the RECOMMENDED safe route (bright green, thick, animated-style dashes)
+                const emPath = buildFullPath(emFromId, emExit.id);
+                svg += `<polyline points="${pathToStr(emPath)}" fill="none" stroke="#00e676" stroke-width="5"
+      stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="12 5" opacity="0.95"
+      style="animation:dashMove 0.5s linear infinite"/>`;
+
+                // Draw the ALTERNATIVE exit route dimly so user can see it but knows it's secondary
+                const emAltPath = buildFullPath(emFromId, emOtherExit.id);
+                svg += `<polyline points="${pathToStr(emAltPath)}" fill="none" stroke="#f39c12" stroke-width="2.5"
+      stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="6 6" opacity="0.45"/>`;
+
+                // "YOU ARE HERE" marker
+                const emFromRoom = rooms.find(r => r.id === emFromId);
+                const emSx = emFromRoom ? emFromRoom.x : 640;
+                const emSy = emFromRoom ? emFromRoom.y : 680;
+                svg += `<circle cx="${emSx}" cy="${emSy}" r="13" fill="#1a4a8a" opacity="0.95" filter="url(#glow)"/>`;
+                svg += `<text x="${emSx}" y="${emSy}" font-family="Space Grotesk,sans-serif" font-size="7" fill="#fff" text-anchor="middle" dominant-baseline="middle" font-weight="700">YOU</text>`;
+
+                // Recommended exit — big glowing green marker
+                const emExitRoom = EXITS.find(e => e.id === emExit.id);
+                const emExitX = emExitRoom.x; const emExitY = emExitRoom.y;
+                svg += `<circle cx="${emExitX}" cy="${emExitY}" r="20" fill="#00c853" opacity="0.25" class="exit-pulse"/>`;
+                svg += `<circle cx="${emExitX}" cy="${emExitY}" r="14" fill="#00c853" opacity="0.95" filter="url(#glow)"/>`;
+                svg += `<text x="${emExitX}" y="${emExitY}" font-family="Space Grotesk,sans-serif" font-size="8" fill="#fff" text-anchor="middle" dominant-baseline="middle" font-weight="800">✓ SAFE</text>`;
+                const emExitLabelY = emExit.id === 'exit-1' ? emExitY - 22 : emExitY - 22;
+                svg += `<text x="${emExitX}" y="${emExitLabelY}" font-family="Space Grotesk,sans-serif" font-size="9" fill="#00e676" text-anchor="middle" font-weight="700">▶ ${emExit.id === 'exit-1' ? 'EXIT 1 — NEAREST' : 'EXIT 2 — NEAREST'}</text>`;
+
+                // Alternative exit — amber subdued marker
+                const emAltExitX = emOtherExit.x; const emAltExitY = emOtherExit.y;
+                svg += `<circle cx="${emAltExitX}" cy="${emAltExitY}" r="11" fill="#f39c12" opacity="0.6" filter="url(#glow)"/>`;
+                svg += `<text x="${emAltExitX}" y="${emAltExitY}" font-family="Space Grotesk,sans-serif" font-size="7" fill="#fff" text-anchor="middle" dominant-baseline="middle" font-weight="700">ALT</text>`;
+                const emAltLabelY = emOtherExit.id === 'exit-2' ? emAltExitY - 20 : emAltExitY - 20;
+                svg += `<text x="${emAltExitX}" y="${emAltLabelY}" font-family="Space Grotesk,sans-serif" font-size="8" fill="#f39c12" text-anchor="middle" font-weight="600">${emOtherExit.id === 'exit-1' ? 'EXIT 1' : 'EXIT 2'} (ALT)</text>`;
+
+                // Distance label on the recommended path midpoint
+                const emMid = emPath[Math.floor(emPath.length / 2)] || [370, 615];
+                const emDist = Math.round(emDistPx * 0.35);
+                svg += `<rect x="${emMid[0] - 28}" y="${emMid[1] - 10}" width="56" height="18" rx="9" fill="#00c853" opacity="0.9"/>`;
+                svg += `<text x="${emMid[0]}" y="${emMid[1]}" font-family="Space Grotesk,sans-serif" font-size="8" fill="#fff" text-anchor="middle" dominant-baseline="middle" font-weight="700">~${emDist}m</text>`;
+            }
+
+            if (mode === 'fresher') {
+                const pathColor = '#1a4a8a';
+                svg += `<polyline points="${pathToStr([[640, 680], [640, 615], [370, 615], [370, 550], [310, 550], [310, 450], [340, 450], [340, 80]])}" fill="none" stroke="${pathColor}" stroke-width="3.5" stroke-dasharray="10 5" stroke-linecap="round" marker-end="url(#arr)" opacity="0.7"/>`;
+                svg += `<text x="340" y="68" font-family="Space Grotesk,sans-serif" font-size="10" fill="${pathColor}" text-anchor="middle" font-weight="700">🎤 SEMINAR HALL</text>`;
+                svg += `<circle cx="640" cy="680" r="8" fill="#1a4a8a" opacity="0.8"/>`;
+                svg += `<text x="620" y="694" font-family="Space Grotesk,sans-serif" font-size="8" fill="#1a4a8a" text-anchor="middle">START</text>`;
+            }
+
+            if (mode === 'normal' && selectedRoom && pathSegments[selectedRoom]) {
+                const fromId = userLocationId || 'entrance';
+                const pts = buildFullPath(fromId, selectedRoom);
+                svg += `<polyline class="path-overlay nav-path" points="${pathToStr(pts)}" marker-end="url(#arr)" stroke="var(--pri2)"/>`;
+                const dest = rooms.find(r => r.id === selectedRoom);
+                if (dest) {
+                    svg += `<circle cx="${dest.x}" cy="${dest.y}" r="18" fill="none" stroke="var(--acc)" stroke-width="2" opacity="0.6" class="exit-pulse"/>`;
+                }
+                const startRoom = rooms.find(r => r.id === fromId);
+                const sx = startRoom ? startRoom.x : 640;
+                const sy = startRoom ? startRoom.y : 680;
+                svg += `<circle cx="${sx}" cy="${sy}" r="10" fill="#1a4a8a" opacity="0.95"/>`;
+                svg += `<text x="${sx}" y="${sy + 16}" font-family="Space Grotesk,sans-serif" font-size="8" fill="#1a4a8a" text-anchor="middle" font-weight="700">YOU</text>`;
+            } else if (mode === 'normal') {
+                const fromId = userLocationId || 'entrance';
+                const startRoom = rooms.find(r => r.id === fromId);
+                if (startRoom) {
+                    svg += `<circle cx="${startRoom.x}" cy="${startRoom.y}" r="10" fill="#1a4a8a" opacity="0.95"/>`;
+                    svg += `<text x="${startRoom.x}" y="${startRoom.y + 16}" font-family="Space Grotesk,sans-serif" font-size="8" fill="#1a4a8a" text-anchor="middle" font-weight="700">YOU</text>`;
+                }
+            }
+
+            svg += `</svg>`;
+            return svg;
+        }
+
+        function drawBlock(x, y, w, h, fill, stroke, label) {
+            return `<rect x="${x}" y="${y}" width="${w}" height="${h}" fill="${fill}" stroke="${stroke}" stroke-width="1" rx="6"/>
+  <text x="${x + w / 2}" y="${y + 8}" font-family="Syne,sans-serif" font-size="8" fill="${stroke}" text-anchor="middle" dominant-baseline="hanging" opacity="0.5">${label.toUpperCase()}</text>`;
+        }
+        function label(x, y, txt, size, fill, maxW) {
+            return `<text x="${x}" y="${y}" font-family="Syne,sans-serif" font-size="${size}" fill="${fill}" text-anchor="middle" font-weight="800">${txt}</text>`;
+        }
+        function pathToStr(pts) { return pts.map(p => p.join(',')).join(' '); }
+        function safePath(pts) {
+            return `<polyline points="${pathToStr(pts)}" fill="none" stroke="#27ae60" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="10 4" opacity="0.9" marker-end="url(#arr)"/>`;
+        }
+        function blockedPath(pts) {
+            return `<polyline points="${pathToStr(pts)}" fill="none" stroke="#e74c3c" stroke-width="3" stroke-linecap="round" opacity="0.85" stroke-dasharray="3 4"/>
+  <text x="${pts[0][0]}" y="${pts[0][1] - 5}" font-family="Space Grotesk,sans-serif" font-size="10" fill="#e74c3c" text-anchor="middle">🚫</text>`;
+        }
+        function blockedLine(y, x1, x2) {
+            return `<line x1="${x1}" y1="${y}" x2="${x2}" y2="${y}" stroke="#e74c3c" stroke-width="2.5" stroke-dasharray="6 4" opacity="0.7"/>
+  <text x="${(x1 + x2) / 2}" y="${y - 4}" font-family="Space Grotesk,sans-serif" font-size="8" fill="#e74c3c" text-anchor="middle">— BLOCKED —</text>`;
+        }
+
+        // =================== ROOM LIST ===================
+        function buildRoomList(filter = '') {
+            const list = document.getElementById('room-list');
+            list.innerHTML = '';
+            const categories = { admin: 'Admin & Offices', lab: 'Laboratories', facility: 'Campus Facilities', room: 'Lecture Rooms', exit: 'Exits' };
+            const grouped = {};
+            for (const r of rooms) {
+                if (filter && !r.label.toLowerCase().includes(filter.toLowerCase()) && !r.num.toLowerCase().includes(filter.toLowerCase())) continue;
+                if (!grouped[r.type]) grouped[r.type] = [];
+                grouped[r.type].push(r);
+            }
+            for (const [type, label] of Object.entries(categories)) {
+                if (!grouped[type]) continue;
+                const header = document.createElement('div');
+                header.style.cssText = 'padding:8px 12px 4px;font-size:0.72rem;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:0.08em;';
+                header.textContent = label;
+                list.appendChild(header);
+                for (const room of grouped[type]) {
+                    const item = document.createElement('div');
+                    item.className = `room-item ${selectedRoom === room.id ? 'selected' : ''}`;
+                    item.id = `ri-${room.id}`;
+                    item.onclick = () => selectRoom(room.id);
+                    item.innerHTML = `<div class="room-icon ${room.color}">${room.icon}</div><div class="room-info"><strong>${room.label}</strong><small>${room.num} · ${room.desc}</small></div>`;
+                    list.appendChild(item);
+                }
+            }
+        }
+
+        function filterRooms(val) { buildRoomList(val); }
+
+        // =================== SELECT / LOCATION ===================
+        function setUserLocation(id) {
+            userLocationId = id;
+            const room = rooms.find(r => r.id === id);
+            updateExitSuggestion();
+            document.getElementById('map-container').innerHTML = buildCampusSVG('normal');
+            if (selectedRoom) {
+                const pi = document.getElementById('path-info');
+                const pt = document.getElementById('path-text');
+                const dest = rooms.find(r => r.id === selectedRoom);
+                pi.classList.add('visible');
+                pt.innerHTML = `<strong>📍 ${room?.label || 'Entrance'} → ${dest?.label}</strong> &nbsp;|&nbsp; ${getPathSteps(userLocationId || 'entrance', selectedRoom)}`;
+                document.getElementById('toolbar-title').textContent = `Route: ${room?.label || 'Entrance'} → ${dest?.label} (${dest?.num})`;
+            }
+            buildRoomList(document.getElementById('room-search')?.value || '');
+        }
+
+        function updateExitSuggestion() {
+            const panel = document.getElementById('exit-suggestion');
+            if (!panel) return;
+            const fromId = userLocationId || 'entrance';
+            const fromRoom = rooms.find(r => r.id === fromId);
+            const { exit, distPx } = getNearestExit(fromId);
+            const otherExit = EXITS.find(e => e.id !== exit.id);
+            const estMetres = Math.round(distPx * 0.35);
+            panel.innerHTML = `
+    <div style="display:flex;align-items:center;gap:10px;margin-bottom:8px;">
+      <div style="background:#27ae60;color:#fff;border-radius:50%;width:36px;height:36px;display:flex;align-items:center;justify-content:center;font-size:1.2rem;flex-shrink:0;">🚪</div>
+      <div>
+        <div style="font-weight:700;font-size:0.92rem;color:var(--pri);">Nearest Exit: ${exit.label}</div>
+        <div style="font-size:0.78rem;color:var(--muted);">~${estMetres}m from your location · ${exit.steps}</div>
+      </div>
+    </div>
+    <div style="display:flex;gap:8px;">
+      <button onclick="selectRoom('${exit.id}')" style="flex:1;padding:8px;background:#27ae60;color:#fff;border:none;border-radius:8px;font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:0.82rem;cursor:pointer;">Show Exit Route</button>
+      <button onclick="selectRoom('${otherExit.id}')" style="flex:1;padding:8px;background:var(--bg);color:var(--text);border:1px solid var(--border);border-radius:8px;font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:0.82rem;cursor:pointer;">${otherExit.label.split('—')[0].trim()}</button>
+    </div>`;
+        }
+
+        function selectRoom(id) {
+            selectedRoom = id;
+            const room = rooms.find(r => r.id === id);
+            const fromId = userLocationId || 'entrance';
+            const fromRoom = rooms.find(r => r.id === fromId);
+            buildRoomList(document.getElementById('room-search')?.value || '');
+            document.getElementById('map-container').innerHTML = buildCampusSVG('normal');
+            const pi = document.getElementById('path-info');
+            const pt = document.getElementById('path-text');
+            if (room && pathSegments[id]) {
+                pi.classList.add('visible');
+                const steps = getPathSteps(fromId, id);
+                pt.innerHTML = `<strong>📍 ${fromRoom?.label || 'Entrance'} → ${room.label}</strong>&nbsp;|&nbsp;${steps}`;
+                document.getElementById('toolbar-title').textContent = `Route: ${fromRoom?.label || 'Entrance'} → ${room.label} (${room.num})`;
+            }
+            const el = document.getElementById(`ri-${id}`);
+            if (el) el.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+            updateExitSuggestion();
+        }
+
+        function getPathSteps(fromId, toId) {
+            const fromRoom = rooms.find(r => r.id === fromId);
+            const toRoom = rooms.find(r => r.id === toId);
+            const fromName = fromRoom?.label || 'Entrance';
+            const toName = toRoom?.label || 'Destination';
+            const leftIds = ['computer-lab', 'biochem-lab', 'admin-office', 'staff-room-1', 'staff-room-2', 'gf-101', 'gf-102', 'gf-103', 'gf-104', 'library', 'dean-office-1', 'dean-office-2', 'nutrition-lab', 'drinking-water', 'hostel', 'gf-118', 'gf-117', 'gf-124'];
+            const rightIds = ['chem-lab', 'anatomy-lab', 'electro-lab', 'physio-lab', 'service-room', 'mcl-lab', 'gf-110', 'nutrition-gf', 'washroom-girls'];
+            const upperIds = ['seminar-hall', 'library', 'dean-office-1', 'nutrition-lab', 'gf-110', 'service-room', 'nutrition-gf', 'mcl-lab'];
+            const dir = rightIds.includes(toId) ? 'Right Wing' : leftIds.includes(toId) ? 'Left Wing' : 'Centre';
+            const wing = upperIds.includes(toId) ? 'Upper' : 'Lower';
+            return `${fromName} → Main Corridor → ${dir} → ${wing} Section → ${toName}`;
+        }
+
+        function populateLocationDropdown() {
+            const sel = document.getElementById('user-location-select');
+            if (!sel || sel.options.length > 1) return;
+            const categories = { admin: 'Admin & Offices', lab: 'Laboratories', facility: 'Campus Facilities', room: 'Lecture Rooms' };
+            for (const [type, label] of Object.entries(categories)) {
+                const group = document.createElement('optgroup');
+                group.label = label;
+                for (const r of rooms) {
+                    if (r.type !== type || r.id === 'entrance') continue;
+                    const opt = document.createElement('option');
+                    opt.value = r.id;
+                    opt.textContent = `${r.label} (${r.num})`;
+                    if (r.id === userLocationId) opt.selected = true;
+                    group.appendChild(opt);
+                }
+                sel.appendChild(group);
+            }
+        }
+
+        function clearPath() {
+            selectedRoom = null;
+            buildRoomList('');
+            document.getElementById('map-container').innerHTML = buildCampusSVG('normal');
+            document.getElementById('path-info').classList.remove('visible');
+            closeAiPanel();
+            const fromRoom = rooms.find(r => r.id === (userLocationId || 'entrance'));
+            document.getElementById('toolbar-title').textContent = userLocationId
+                ? `You are at: ${fromRoom?.label} — Select a destination`
+                : 'Parul University — Campus Map';
+            updateExitSuggestion();
+        }
+
+        // =================== ZOOM ===================
+        function zoomIn() { currentZoom = Math.min(currentZoom + 0.25, 2.5); applyZoom(); }
+        function zoomOut() { currentZoom = Math.max(currentZoom - 0.25, 0.5); applyZoom(); }
+        function applyZoom() { document.getElementById('map-container').style.transform = `scale(${currentZoom})`; }
+
+        // =================== AI PROMPT FEATURE ===================
+        function closeAiPanel() {
+            document.getElementById('ai-response-panel').classList.remove('visible');
+        }
+
+        function quickNavigateToExit() {
+            const fromId = userLocationId || 'entrance';
+            const { exit, distPx } = getNearestExit(fromId);
+            selectRoom(exit.id);
+            const fromRoom = rooms.find(r => r.id === fromId);
+            const estM = Math.round(distPx * 0.35);
+            showAiResponse(
+                `🚪 Nearest Exit from ${fromRoom?.label}`,
+                generateExitNavText(fromId, exit, estM)
+            );
+        }
+
+        function generateExitNavText(fromId, exit, estMetres) {
+            const fromRoom = rooms.find(r => r.id === fromId);
+            const fromLabel = fromRoom?.label || 'Main Entrance';
+            const steps = buildExitSteps(fromId, exit.id);
+            const otherExit = EXITS.find(e => e.id !== exit.id);
+            const otherDist = Math.round(getExitDistance(fromId, otherExit.id) * 0.35);
+
+            return {
+                location: fromLabel,
+                exitName: exit.label,
+                distance: `~${estMetres} metres`,
+                steps: steps,
+                note: `Alternative: ${otherExit.label} is ~${otherDist}m away.`,
+                urgency: estMetres < 50 ? 'You are very close to the exit!' : estMetres < 120 ? 'A short walk away.' : 'Follow the path carefully.'
+            };
+        }
+
+        function buildExitSteps(fromId, exitId) {
+            const fromRoom = rooms.find(r => r.id === fromId);
+            const exitRoom = EXITS.find(e => e.id === exitId);
+            const fromLabel = fromRoom?.label || 'Your Location';
+
+            // Determine wing
+            const leftWingIds = ['computer-lab', 'biochem-lab', 'admin-office', 'staff-room-1', 'staff-room-2',
+                'gf-101', 'gf-102', 'gf-103', 'gf-104', 'library', 'dean-office-1', 'dean-office-2',
+                'nutrition-lab', 'drinking-water', 'gf-118', 'gf-117', 'gf-124'];
+            const upperIds = ['seminar-hall', 'library', 'dean-office-1', 'nutrition-lab', 'gf-110', 'service-room', 'nutrition-gf', 'mcl-lab'];
+            const inLeftWing = leftWingIds.includes(fromId);
+            const inUpper = upperIds.includes(fromId);
+
+            if (exitId === 'exit-1') {
+                if (inLeftWing && inUpper) return [
+                    `Exit ${fromLabel} into the Left Wing corridor`,
+                    `Walk right along the Upper corridor toward the Centre`,
+                    `Turn right at the main corridor junction`,
+                    `Follow the main corridor east (right) toward the Entrance block`,
+                    `EXIT 1 — Main Gate is straight ahead on your right`
+                ];
+                if (inLeftWing) return [
+                    `Exit ${fromLabel} into the Left Wing corridor`,
+                    `Walk right (east) along the Lower corridor`,
+                    `Continue toward the main corridor junction`,
+                    `Turn right toward the Entrance/Parking side`,
+                    `EXIT 1 — Main Gate is straight ahead`
+                ];
+                return [
+                    `Exit ${fromLabel} into the nearest corridor`,
+                    `Head toward the main corridor (ground level)`,
+                    `Turn right (east) toward the Entrance block`,
+                    `EXIT 1 — Main Gate is at the far-right of campus`
+                ];
+            } else {
+                // Exit 2 — Hostel Gate (left side)
+                if (inLeftWing && inUpper) return [
+                    `Exit ${fromLabel} into the Left Wing corridor`,
+                    `Walk left (west) along the corridor`,
+                    `Continue straight down the left wing to ground floor`,
+                    `Walk through the Faculty Hostel area`,
+                    `EXIT 2 — Hostel Side Gate is on the left boundary`
+                ];
+                return [
+                    `Exit ${fromLabel} into the nearest corridor`,
+                    `Head toward the main corridor (ground level)`,
+                    `Turn left (west) along the lower corridor`,
+                    `Pass through the Hostel block area`,
+                    `EXIT 2 — Hostel Gate is at the left boundary of campus`
+                ];
+            }
+        }
+
+        async function handleAiPrompt() {
+            const input = document.getElementById('ai-prompt-input').value.trim();
+            if (!input) return;
+
+            const btn = document.getElementById('ai-prompt-btn');
+            const btnText = document.getElementById('ai-btn-text');
+            btn.disabled = true;
+            btnText.innerHTML = '<span class="ai-typing"><span></span><span></span><span></span></span>';
+
+            // Show loading state in panel
+            const panel = document.getElementById('ai-response-panel');
+            const respText = document.getElementById('ai-response-text');
+            const respTitle = document.getElementById('ai-resp-title');
+            panel.classList.add('visible');
+            respTitle.textContent = 'Processing your request…';
+            respText.innerHTML = `<div class="ai-typing"><span></span><span></span><span></span></div> Asking AI Navigator…`;
+
+            const fromId = userLocationId || 'entrance';
+            const fromRoom = rooms.find(r => r.id === fromId);
+            const { exit, distPx } = getNearestExit(fromId);
+            const estMetres = Math.round(distPx * 0.35);
+            const otherExit = EXITS.find(e => e.id !== exit.id);
+            const otherDist = Math.round(getExitDistance(fromId, otherExit.id) * 0.35);
+            const steps = buildExitSteps(fromId, exit.id);
+
+            // Build campus context for Claude
+            const campusContext = `
+You are the AI Campus Navigator for Parul University. You have full knowledge of the campus map.
+
+CURRENT USER LOCATION: ${fromRoom?.label || 'Main Entrance'} (Room ID: ${fromId}, Number: ${fromRoom?.num || 'ENT'})
+USER'S WING: ${['seminar-hall', 'library', 'dean-office-1', 'nutrition-lab'].includes(fromId) ? 'Upper Academic Wing' : ['gf-101', 'gf-102', 'gf-103', 'computer-lab', 'admin-office'].includes(fromId) ? 'Left Wing' : 'Main/Central Area'}
+
+CAMPUS EXITS:
+1. Exit 1 — Main Gate: located at the far RIGHT (east) of campus near the Parking Lot and Entrance block. ~${estMetres}m from user's current location.
+2. Exit 2 — Hostel Gate: located at the far LEFT (west) of campus behind the Faculty Hostel block. ~${otherDist}m from user's current location.
+
+NEAREST EXIT: ${exit.label} (~${estMetres}m away)
+NAVIGATION STEPS TO NEAREST EXIT: ${steps.join(' → ')}
+
+ALL CAMPUS ROOMS: Seminar Hall (GF-107), Library (GF-106), Dean's Office (GF-105, GF-119), Computer Lab (GF-125), Biochemistry Lab (GF-132), Pharmacy Lab (GF-126), Chemistry Lab (GF-133), Central Instrument Room, Nutrition Lab, MCL Lab, Anatomy Lab (GF-112), Electro Lab (GF-113), Physio Lab (GF-114), Admin Office, Staff Rooms, Service Room, Hostel, Canteen, Parking, Boys/Girls Washrooms, Drinking Water station, Lecture Rooms GF-101 to GF-134.
+
+USER PROMPT: "${input}"
+
+Respond in a helpful, clear, friendly tone as a campus guide. If the user asks about their location or navigation to exit:
+1. Confirm their current location clearly
+2. Identify the nearest exit with distance
+3. Give clear step-by-step walking directions
+4. Mention the alternative exit distance too
+5. Keep response concise and actionable
+
+Format your response with:
+- First line: Brief summary (e.g. "You are currently at [Location]. Your nearest exit is [Exit].")
+- Then numbered steps for navigation
+- End with a helpful tip
+`;
+
+            try {
+                const response = await fetch("https://api.anthropic.com/v1/messages", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({
+                        model: "claude-sonnet-4-20250514",
+                        max_tokens: 1000,
+                        system: campusContext,
+                        messages: [{ role: "user", content: input }]
+                    })
+                });
+
+                const data = await response.json();
+                const aiText = data.content?.map(c => c.text || '').join('\n') || '';
+
+                if (aiText) {
+                    // Parse and render the AI response
+                    renderAiResponse(aiText, exit, fromRoom, estMetres, steps);
+                    // Auto-navigate on map to the nearest exit
+                    selectRoom(exit.id);
+                    respTitle.textContent = `📍 ${fromRoom?.label || 'Your Location'} → ${exit.label}`;
+                } else {
+                    // Fallback to local logic
+                    fallbackLocalResponse(fromId, exit, estMetres, steps, fromRoom);
+                }
+            } catch (err) {
+                // Fallback to local logic if API fails
+                fallbackLocalResponse(fromId, exit, estMetres, steps, fromRoom);
+                selectRoom(exit.id);
+            }
+
+            btn.disabled = false;
+            btnText.innerHTML = 'Ask AI 🤖';
+        }
+
+        function renderAiResponse(aiText, exit, fromRoom, estMetres, steps) {
+            const panel = document.getElementById('ai-response-panel');
+            const respText = document.getElementById('ai-response-text');
+            const respTitle = document.getElementById('ai-resp-title');
+            panel.classList.add('visible');
+            respTitle.textContent = `📍 ${fromRoom?.label || 'Your Location'} → ${exit.label}`;
+
+            // Parse lines into structured output
+            const lines = aiText.split('\n').map(l => l.trim()).filter(l => l);
+            let html = '';
+            let inList = false;
+            let stepNum = 0;
+
+            for (const line of lines) {
+                if (!line) continue;
+                // Numbered step
+                const stepMatch = line.match(/^(\d+)[.)]\s*(.+)/);
+                if (stepMatch) {
+                    if (!inList) { html += '<ul class="ai-steps-list">'; inList = true; }
+                    stepNum++;
+                    html += `<li><div class="step-num">${stepNum}</div><span>${stepMatch[2]}</span></li>`;
+                } else {
+                    if (inList) { html += '</ul>'; inList = false; }
+                    // Bold first/summary line
+                    if (steps.length > 0 && !html && line.length < 200) {
+                        html += `<p style="font-weight:600;margin-bottom:8px;color:var(--pri);font-size:0.9rem;">${line}</p>`;
+                    } else {
+                        html += `<p style="margin-bottom:6px;font-size:0.86rem;color:var(--muted);">${line}</p>`;
+                    }
+                }
+            }
+            if (inList) html += '</ul>';
+
+            // Add distance badge
+            html += `<div style="margin-top:10px;padding:8px 12px;background:rgba(39,174,96,0.12);border-radius:8px;border-left:3px solid #27ae60;font-size:0.82rem;color:#1a4a2a;">
+    <strong>🚶 Distance:</strong> ~${estMetres} metres to ${exit.label}
+  </div>`;
+
+            respText.innerHTML = html;
+        }
+
+        function fallbackLocalResponse(fromId, exit, estMetres, steps, fromRoom) {
+            const panel = document.getElementById('ai-response-panel');
+            const respText = document.getElementById('ai-response-text');
+            const respTitle = document.getElementById('ai-resp-title');
+            const otherExit = EXITS.find(e => e.id !== exit.id);
+            const otherDist = Math.round(getExitDistance(fromId, otherExit.id) * 0.35);
+
+            panel.classList.add('visible');
+            respTitle.textContent = `📍 ${fromRoom?.label} → ${exit.label}`;
+
+            const stepsHtml = steps.map((s, i) => `<li><div class="step-num">${i + 1}</div><span>${s}</span></li>`).join('');
+
+            respText.innerHTML = `
+    <p style="font-weight:600;margin-bottom:10px;color:var(--pri);font-size:0.9rem;">
+      📍 You are currently at <strong>${fromRoom?.label || 'Main Entrance'}</strong> (${fromRoom?.num || 'ENT'}).
+      Your nearest exit is <strong>${exit.label}</strong>, approximately <strong>${estMetres} metres</strong> away.
+    </p>
+    <ul class="ai-steps-list">${stepsHtml}</ul>
+    <div style="margin-top:10px;padding:8px 12px;background:rgba(39,174,96,0.12);border-radius:8px;border-left:3px solid #27ae60;font-size:0.82rem;color:#1a4a2a;">
+      <strong>🚶 Distance:</strong> ~${estMetres}m to ${exit.label} &nbsp;·&nbsp; Alternative: ${otherExit.label} (~${otherDist}m)
+    </div>
+    <div style="margin-top:8px;font-size:0.78rem;color:var(--muted);">💡 The route is now highlighted on the map with a dashed green path.</div>
+  `;
+        }
+
+        // =================== EMERGENCY PAGE ===================
+        function populateEmergencyLocationDropdown() {
+            const sel = document.getElementById('emergency-location-select');
+            if (!sel || sel.options.length > 1) return;
+            const categories = { admin: 'Admin & Offices', lab: 'Laboratories', facility: 'Campus Facilities', room: 'Lecture Rooms' };
+            for (const [type, label] of Object.entries(categories)) {
+                const group = document.createElement('optgroup');
+                group.label = label;
+                for (const r of rooms) {
+                    if (r.type !== type || r.id === 'entrance') continue;
+                    const opt = document.createElement('option');
+                    opt.value = r.id;
+                    opt.textContent = `${r.label} (${r.num})`;
+                    if (r.id === userLocationId) opt.selected = true;
+                    group.appendChild(opt);
+                }
+                sel.appendChild(group);
+            }
+        }
+
+        function setEmergencyLocation(id) {
+            userLocationId = id;
+            // Also keep the normal map's dropdown in sync
+            const normSel = document.getElementById('user-location-select');
+            if (normSel) normSel.value = id;
+            refreshEmergencyPage();
+        }
+
+        function refreshEmergencyPage() {
+            // Re-render map with updated user location
+            document.getElementById('emergency-map-wrap').innerHTML = buildCampusSVG('emergency');
+            populateEmergencyLocationDropdown();
+
+            // Sync emergency dropdown to current userLocationId
+            const sel = document.getElementById('emergency-location-select');
+            if (sel && userLocationId) sel.value = userLocationId;
+
+            const fromId = userLocationId || 'entrance';
+            const fromRoom = rooms.find(r => r.id === fromId);
+            const { exit, distPx } = getNearestExit(fromId);
+            const otherExit = EXITS.find(e => e.id !== exit.id);
+            const estM = Math.round(distPx * 0.35);
+            const altM = Math.round(getExitDistance(fromId, otherExit.id) * 0.35);
+
+            // Build step-by-step emergency directions
+            const emergencySteps = buildExitSteps(fromId, exit.id);
+
+            const ePanel = document.getElementById('emergency-nearest-exit');
+            if (ePanel) {
+                const stepsHtml = emergencySteps.map((s, i) => `
+      <li style="display:flex;align-items:flex-start;gap:8px;padding:5px 0;border-bottom:1px solid rgba(255,255,255,0.12);">
+        <span style="background:rgba(255,255,255,0.2);border-radius:50%;width:20px;height:20px;font-size:0.72rem;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;">${i + 1}</span>
+        <span style="font-size:0.84rem;line-height:1.4;">${s}</span>
+      </li>`).join('');
+
+                ePanel.innerHTML = `
+      <div style="background:linear-gradient(135deg,#c0392b,#e74c3c);color:#fff;border-radius:12px;padding:14px 16px;margin-bottom:14px;box-shadow:0 4px 16px rgba(192,57,43,0.35);">
+        <div style="display:flex;align-items:center;gap:12px;margin-bottom:10px;">
+          <span style="font-size:2rem;filter:drop-shadow(0 0 6px #fff8);">🚨</span>
+          <div>
+            <div style="font-weight:800;font-size:1.05rem;letter-spacing:0.01em;">NEAREST SAFE EXIT</div>
+            <div style="font-size:0.82rem;opacity:0.9;margin-top:2px;">From: <strong>${fromRoom?.label || 'Main Entrance'}</strong></div>
+          </div>
+        </div>
+        <div style="background:rgba(0,0,0,0.2);border-radius:8px;padding:10px 12px;margin-bottom:10px;">
+          <div style="font-size:1rem;font-weight:800;display:flex;align-items:center;gap:8px;">
+            <span>✅</span> ${exit.label}
+          </div>
+          <div style="font-size:0.82rem;opacity:0.85;margin-top:3px;">~${estM} metres &nbsp;·&nbsp; ${exit.steps}</div>
+        </div>
+        <ul style="list-style:none;padding:0;margin:0;">
+          ${stepsHtml}
+        </ul>
+      </div>
+      <div style="background:#fffde7;border-radius:10px;padding:10px 14px;margin-bottom:14px;border-left:3px solid #f39c12;font-size:0.82rem;color:#5a4000;">
+        <strong>🔄 Alternative:</strong> ${otherExit.label} is ~${altM}m away (shown in amber on map)
+      </div>`;
+            }
+        }
+
+        // =================== TOUR ===================
+        function buildTourList() {
+            const list = document.getElementById('tour-stops');
+            list.innerHTML = '';
+            tourStops.forEach((stop, i) => {
+                const li = document.createElement('li');
+                li.className = `tour-stop ${i === currentTourStop ? 'active' : ''}`;
+                li.onclick = () => { currentTourStop = i; updateTour(); };
+                li.innerHTML = `<div class="stop-num">${i + 1}</div><div class="tour-stop-info"><strong>${stop.icon} ${stop.label}</strong><small>${stop.desc.substring(0, 40)}…</small></div>`;
+                list.appendChild(li);
+            });
+        }
+
+        function updateTour() {
+            buildTourList();
+            const stop = tourStops[currentTourStop];
+            document.getElementById('fresher-map-wrap').innerHTML = buildCampusSVG('fresher', stop.id);
+            const panel = document.getElementById('fresher-info-panel');
+            panel.innerHTML = `<h4>${stop.icon} ${stop.label}</h4><p>${stop.desc}</p>`;
+        }
+
+        function nextStop() { currentTourStop = Math.min(currentTourStop + 1, tourStops.length - 1); updateTour(); }
+        function prevStop() { currentTourStop = Math.max(currentTourStop - 1, 0); updateTour(); }
+
+        // =================== PAGE SWITCHING ===================
+        function showPage(name) {
+            document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+            document.getElementById('page-' + name).classList.add('active');
+            document.querySelectorAll('.nav-links button').forEach(b => b.classList.remove('active'));
+            const btns = document.querySelectorAll('.nav-links button');
+            const pageOrder = ['home', 'about', 'map', 'emergency', 'fresher'];
+            const idx = pageOrder.indexOf(name);
+            if (btns[idx]) btns[idx].classList.add('active');
+
+            if (name === 'map') {
+                document.getElementById('map-container').innerHTML = buildCampusSVG('normal');
+                buildRoomList();
+                populateLocationDropdown();
+                updateExitSuggestion();
+            }
+            if (name === 'emergency') {
+                refreshEmergencyPage();
+            }
+            if (name === 'fresher') {
+                buildTourList();
+                updateTour();
+            }
+            window.scrollTo(0, 0);
+        }
+
+        // Init
+        buildRoomList();
+    </script>
+</body>
+
+</html>
